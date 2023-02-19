@@ -1,12 +1,16 @@
 # Solidus Chartkick
 
-Please note, this is currently under development and not fit for use yet.
+Please Note: This is WIP, you cannot yet specify what data you would like to see.
 
 Solidus is awesome, but not having nice charts and graphics easily accessible is not.
+This adds the chartkick gem to add nice line graphs in your admin panel. 
 
-This ads the chartkick extension to add nice line graphs in your admin panel. 
+You can have real line graphs easily: 
 
-How to specify what should be graphed is TBD.
+`line_chart Spree::User.group_by_period(params[:period], :created_at, range: params[:start_gt]..params[:end_lt]).count`
+
+<img width="1194" alt="Screenshot 2023-02-18 at 10 27 10 PM" src="https://user-images.githubusercontent.com/11396462/219932723-54a005b0-180f-4d4a-9477-dcd71584d30e.png">
+
 
 <!-- Explain what your extension does. -->
 
