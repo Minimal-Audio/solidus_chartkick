@@ -8,8 +8,8 @@ module Spree
         params[:start_gt] ||= Time.now - 7.days
         params[:end_lt] ||= Time.now
 
-        params[:start_gt] = params[:start_gt].beginning_of_day
-        params[:end_lt] = params[:end_lt].end_of_day
+        params[:start_gt] = params[:start_gt].to_datetime.beginning_of_day
+        params[:end_lt] = params[:end_lt].to_datetime.end_of_day
       end
     end
   end

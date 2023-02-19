@@ -1,5 +1,5 @@
 <div clasx="text-center my-5">
-  <%= form_for admin_charts_path, method: :get do |s| %>
+  <%= form_with url: admin_charts_path, method: :get do |s| %>
     <div class="date-range-filter field align-center">
       <%= label_tag :start_gt, I18n.t('spree.start'), :class => 'inline' %>
       <%= s.text_field :start_gt, :class => 'datepicker datepicker-from', :value => datepicker_field_value(params[:start_gt]) %>
@@ -19,9 +19,9 @@
 </div>
 
 <h5> Users Created </h5>
-<%= line_chart Spree::User.group_by_month(:created_at).count %>
+<%= line_chart Spree::User.group_by_period(:day, :created_at, range: params[:start_gt]..params[:end_lt]).count %>
 <hr>
 
 <h5> Order Totals </h5>
-<%= line_chart Spree::Order.group_by_month(:completed_at).sum(:total) %>
+<%= line_chart Spree::Order.group_by_period(:day, :completed_at, range: params[:start_gt]..params[:end_lt]).sum(:total) %>
 <hr>
