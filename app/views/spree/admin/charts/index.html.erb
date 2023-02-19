@@ -1,3 +1,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chartkick@5.0.1/dist/chartkick.min.js"></script>
 
-<%= line_chart Spree::User.group_by_day(:created_at).count %>
+<h5> Users Created </h5>
+<%= line_chart Spree::User.group_by_week(:created_at).count %>
+<hr>
+
+<h5> Order Totals </h5>
+<%= line_chart Spree::Order.group_by_week(:completed_at).sum(:total) %>
+<hr>
