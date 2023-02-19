@@ -10,7 +10,6 @@
       <%= s.text_field :end_lt, :class => 'datepicker datepicker-to', :value => datepicker_field_value(params[:end_lt]) %>
       <%= label_tag :end_lt, I18n.t('spree.end'), :class => 'inline' %>
     </div>
-
     <div class="text-center actions filter-actions offset-4 col-4">
       <%= s.select :period, options_for_select([["Day", :day], ["Week", :week], ["Month", :month]], params[:period]), {}, { class: "custom-select fullwidth mt-2" } %>
       <%= button_tag I18n.t('spree.search'), class: 'mt-5' %>
