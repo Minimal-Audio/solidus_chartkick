@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-SolidusChartkick.configure do |config|
-  # TODO: Remember to change this with the actual preferences you have implemented!
-  # config.sample_preference = 'sample_value'
+SolidusChartkick.configure do |_config|
+
 end
