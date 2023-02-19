@@ -3,6 +3,10 @@
 module SolidusChartkick
   class Configuration
     attr_accessor :expressions
+
+    def initialize
+      @expressions = Array.new
+    end
   end
 
   class << self

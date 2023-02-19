@@ -19,7 +19,7 @@
 </div>
 
 <!-- Results -->
-<% @expressions.each do |expression| %>
+<% SolidusChartkick.config.expressions.each do |expression| %>
   <div class="mt-5">
     <h5> <%= expression.label %> </h5>
     <%= expression.chart_expression.call(params[:period], params[:start_gt], params[:end_lt]) %>
