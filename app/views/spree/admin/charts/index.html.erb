@@ -1,4 +1,5 @@
-<div clasx="text-center my-5">
+<!-- Filters -->
+<div class="text-center my-5">
   <%= form_with url: admin_charts_path, method: :get do |s| %>
     <div class="date-range-filter field align-center">
       <%= label_tag :start_gt, I18n.t('spree.start'), :class => 'inline' %>
@@ -9,7 +10,6 @@
       <%= s.text_field :end_lt, :class => 'datepicker datepicker-to', :value => datepicker_field_value(params[:end_lt]) %>
       <%= label_tag :end_lt, I18n.t('spree.end'), :class => 'inline' %>
     </div>
-
     <div class="text-center actions filter-actions offset-4 col-4">
       <%= s.select :period, options_for_select([["Day", :day], ["Week", :week], ["Month", :month]], params[:period]), {}, { class: "custom-select fullwidth mt-2" } %>
       <%= button_tag I18n.t('spree.search'), class: 'mt-5' %>
@@ -17,22 +17,11 @@
   <% end %>
 </div>
 
-<% order_scope = Spree::Order.complete.group_by_period(params[:period], :completed_at, range: params[:start_gt]..params[:end_lt]) %>
-<% queries = [] %>
-<% queries << { type: :line_chart, name: "Users Created", data: Spree::User.group_by_period(params[:period], :created_at, range: params[:start_gt]..params[:end_lt]).count } %>
-<% queries << { name: "Order Totals", data: order_scope.sum(:total) } %>
-
-<% queries.each do |query| %>
-  <h5 class="mt-5"> <%= query[:name] %> </h5>
-  <%= line_chart query[:data] %>
-  <hr>
+<!-- Results -->
+<% SolidusChartkick.config.expressions.each do |expression| %>
+  <div class="mt-5">
+    <h5> <%= expression.label %> </h5>
+    <%= expression.chart_expression.call(params[:period], params[:start_gt], params[:end_lt]) %>
+    <hr>
+  </div>
 <% end %>
-
-<h5 class="mt-5"> Products Sold | Excluded: [RFL, RFBL, Cypher] </h5>
-<% products = Spree::Order.where(completed_at: params[:start_gt].beginning_of_day..params[:end_lt].end_of_day).joins(:products) %>
-<% res = products.group(:name).count %>
-<% res.delete("Rift Filter Lite") %>
-<% res.delete("Rift Feedback Lite") %>
-<% res.delete("Cypher") %>
-<%= column_chart res %>
-<hr>
