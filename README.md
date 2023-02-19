@@ -1,7 +1,12 @@
 # Solidus Chartkick
 
-[![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_chartkick.svg?style=shield)](https://circleci.com/gh/solidusio-contrib/solidus_chartkick)
-[![codecov](https://codecov.io/gh/solidusio-contrib/solidus_chartkick/branch/master/graph/badge.svg)](https://codecov.io/gh/solidusio-contrib/solidus_chartkick)
+Please note, this is currently under development and not fit for use yet.
+
+Solidus is awesome, but not having nice charts and graphics easily accessible is not.
+
+This ads the chartkick extension to add nice line graphs in your admin panel. 
+
+How to specify what should be graphed is TBD.
 
 <!-- Explain what your extension does. -->
 
