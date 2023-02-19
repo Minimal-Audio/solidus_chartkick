@@ -22,7 +22,7 @@ SolidusChartkick.configure do |config|
     line_chart scope.count
   })
 
-  # Order Total Count
+  # Order Total Sum
   config.expressions << SolidusChartkick::Expression.new('Order Totals', ->(period, start_gt, end_lt) {
     scope = Spree::Order.complete.group_by_period(period, :completed_at, range: start_gt..end_lt)
     line_chart scope.sum(:total)
