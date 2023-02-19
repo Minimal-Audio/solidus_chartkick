@@ -1,5 +1,0 @@
-bump:
-  recurse: false
-  file: 'lib/solidus_chartkick/version.rb'
-  message: Bump SolidusChartkick to %{version}
-  tag: true

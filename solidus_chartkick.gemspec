@@ -6,16 +6,16 @@ Gem::Specification.new do |spec|
   spec.name = 'solidus_chartkick'
   spec.version = SolidusChartkick::VERSION
   spec.authors = ['Jacob Penn']
-  spec.email = 'penn.jacob@gmail.com'
+  spec.email = 'jake@minimal.audio'
 
-  spec.summary = 'TODO: Write a short summary, because RubyGems requires one.'
-  spec.description = 'TODO: Write a longer description or delete this line.'
-  spec.homepage = 'https://github.com/solidusio-contrib/solidus_chartkick#readme'
+  spec.summary = 'Dashboards are nice.'
+  spec.description = 'Chartkick is a rails wrapper around chart js which enables the creation of nice line graphs.'
+  spec.homepage = 'https://github.com/minimal-audio/solidus_chartkick#readme'
   spec.license = 'BSD-3-Clause'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/solidusio-contrib/solidus_chartkick'
-  spec.metadata['changelog_uri'] = 'https://github.com/solidusio-contrib/solidus_chartkick/blob/master/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/minimal-audio/solidus_chartkick'
+  spec.metadata['changelog_uri'] = 'https://github.com/minimal-audio/solidus_chartkick/blob/master/CHANGELOG.md'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.5', '< 4')
 
@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'solidus_core', ['>= 2.0.0', '< 4']
   spec.add_dependency 'solidus_support', '~> 0.5'
+  spec.add_dependency 'chartkick'
 
   spec.add_development_dependency 'solidus_dev_support', '~> 2.5'
 end
