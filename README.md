@@ -4,10 +4,10 @@ A [Chartkick](https://chartkick.com) dashboard tab for your solidus app. This ex
 
 The expression object is a simple wrapper around a lambda which generates a Chartkick chart, and a label to display on the page. The lambdas have 3 arguments. 
 
-```
+```ruby
 period: :day, :week, or :month
 start_gt: start time as selected by user in their admin panel
-end_lt: end time as selected by user in their admin panel
+end_lt: finish time as selected by user in their admin panel
 ```
 
 Basic installation will create a configuation file like: 
