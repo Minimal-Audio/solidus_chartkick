@@ -1,18 +1,38 @@
 # Solidus Chartkick
 
-Please Note: This is WIP, you cannot yet specify what data you would like to see.
+A [Chartkick](https://chartkick.com) dashboard tab for your solidus app. This extension works by taking a list of lamdas in your configuration file. 
 
-Solidus is awesome, but not having nice charts and graphics easily accessible is not.
-This adds the chartkick gem to add nice line graphs in your admin panel. 
+A new tab is added to your dashboard panel, and the expressions will be run with the option to set dates and time frames.
 
-You can have real line graphs easily: 
+Basic installation will create a configuation file like: 
 
-`line_chart Spree::User.group_by_period(params[:period], :created_at, range: params[:start_gt]..params[:end_lt]).count`
+```ruby
+SolidusChartkick.configure do |config|
+  include Chartkick::Helper
 
-<img width="1194" alt="Screenshot 2023-02-18 at 10 27 10 PM" src="https://user-images.githubusercontent.com/11396462/219932723-54a005b0-180f-4d4a-9477-dcd71584d30e.png">
+  # User Created Chart
+  config.expressions << SolidusChartkick::Expression.new('Users Created', ->(period, start_gt, end_lt) {
+    scope = Spree::User.group_by_period(period, :created_at, range: start_gt..end_lt)
+    line_chart scope.count
+  })
 
+  # Order Total Chart
+  config.expressions << SolidusChartkick::Expression.new('Order Totals', ->(period, start_gt, end_lt) {
+    scope = Spree::Order.complete.group_by_period(period, :completed_at, range: start_gt..end_lt)
+    line_chart scope.sum(:total)
+  })
 
-<!-- Explain what your extension does. -->
+  # Product Sold Via Count
+  config.expressions << SolidusChartkick::Expression.new('Products Sold', ->(_period, start_gt, end_lt) {
+    scope = Spree::Order.where(completed_at: start_gt.beginning_of_day..end_lt.end_of_day).joins(:products)
+    column_chart scope.group(:name).count
+  })
+end
+```
+
+Results look like: 
+
+<img width="1686" alt="Screenshot 2023-02-19 at 2 40 32 PM" src="https://user-images.githubusercontent.com/11396462/219979604-5f6c6518-58f3-44c4-84f2-84f4d255fc41.png">
 
 ## Installation
 
