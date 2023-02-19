@@ -1,9 +1,27 @@
-<script src="https://cdn.jsdelivr.net/npm/chartkick@5.0.1/dist/chartkick.min.js"></script>
+<div clasx="text-center my-5">
+  <%= form_for admin_charts_path, method: :get do |s| %>
+    <div class="date-range-filter field align-center">
+      <%= label_tag :start_gt, I18n.t('spree.start'), :class => 'inline' %>
+      <%= s.text_field :start_gt, :class => 'datepicker datepicker-from', :value => datepicker_field_value(params[:start_gt]) %>
+
+      <span class="range-divider">
+      <i class="fa fa-arrow-right"></i>
+    </span>
+
+      <%= s.text_field :end_lt, :class => 'datepicker datepicker-to', :value => datepicker_field_value(params[:end_lt]) %>
+      <%= label_tag :end_lt, I18n.t('spree.end'), :class => 'inline' %>
+    </div>
+
+    <div class="text-center actions filter-actions">
+      <%= button_tag I18n.t('spree.search') %>
+    </div>
+  <% end %>
+</div>
 
 <h5> Users Created </h5>
-<%= line_chart Spree::User.group_by_week(:created_at).count %>
+<%= line_chart Spree::User.group_by_month(:created_at).count %>
 <hr>
 
 <h5> Order Totals </h5>
-<%= line_chart Spree::Order.group_by_week(:completed_at).sum(:total) %>
+<%= line_chart Spree::Order.group_by_month(:completed_at).sum(:total) %>
 <hr>
