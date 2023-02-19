@@ -2,7 +2,7 @@
 
 A [Chartkick](https://chartkick.com) dashboard tab for your solidus app. This extension works by taking a list of SolidusChartkick::Expression objects in your configuration file. 
 
-The expression object is a simple wrapper around a lambda which generates a Chartkick chart, and a label to display on the page. The lambdas have 3 argugments. 
+The expression object is a simple wrapper around a lambda which generates a Chartkick chart, and a label to display on the page. The lambdas have 3 arguments. 
 
 ```
 period: :day, :week, or :month
