@@ -1,8 +1,14 @@
 # Solidus Chartkick
 
-A [Chartkick](https://chartkick.com) dashboard tab for your solidus app. This extension works by taking a list of lamdas in your configuration file. 
+A [Chartkick](https://chartkick.com) dashboard tab for your solidus app. This extension works by taking a list of SolidusChartkick::Expression objects in your configuration file. 
 
-A new tab is added to your dashboard panel, and the expressions will be run with the option to set dates and time frames.
+The expression object is a simple wrapper around a lambda which generates a Charkick chart, and a label to display on the page. The lambdas have 3 argugments. 
+
+```
+period: :day, :week, or :month
+start_gt: start time as selected by user in their admin panel
+end_lt: end time as selected by user in their admin panel
+```
 
 Basic installation will create a configuation file like: 
 
@@ -10,19 +16,19 @@ Basic installation will create a configuation file like:
 SolidusChartkick.configure do |config|
   include Chartkick::Helper
 
-  # User Created Chart
+  # User Created Count
   config.expressions << SolidusChartkick::Expression.new('Users Created', ->(period, start_gt, end_lt) {
     scope = Spree::User.group_by_period(period, :created_at, range: start_gt..end_lt)
     line_chart scope.count
   })
 
-  # Order Total Chart
+  # Order Total Count
   config.expressions << SolidusChartkick::Expression.new('Order Totals', ->(period, start_gt, end_lt) {
     scope = Spree::Order.complete.group_by_period(period, :completed_at, range: start_gt..end_lt)
     line_chart scope.sum(:total)
   })
 
-  # Product Sold Via Count
+  # Order Containing Product Count (We only sell 1 of a product in a cart max at Minimal Audio)
   config.expressions << SolidusChartkick::Expression.new('Products Sold', ->(_period, start_gt, end_lt) {
     scope = Spree::Order.where(completed_at: start_gt.beginning_of_day..end_lt.end_of_day).joins(:products)
     column_chart scope.group(:name).count
