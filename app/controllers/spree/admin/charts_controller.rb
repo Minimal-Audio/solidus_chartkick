@@ -4,7 +4,8 @@ module Spree
   module Admin
     class ChartsController < Spree::Admin::BaseController
 
-      def index; end
+      def index
+      end
 
     end
   end
