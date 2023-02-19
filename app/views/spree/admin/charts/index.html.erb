@@ -3,25 +3,36 @@
     <div class="date-range-filter field align-center">
       <%= label_tag :start_gt, I18n.t('spree.start'), :class => 'inline' %>
       <%= s.text_field :start_gt, :class => 'datepicker datepicker-from', :value => datepicker_field_value(params[:start_gt]) %>
-
       <span class="range-divider">
       <i class="fa fa-arrow-right"></i>
     </span>
-
       <%= s.text_field :end_lt, :class => 'datepicker datepicker-to', :value => datepicker_field_value(params[:end_lt]) %>
       <%= label_tag :end_lt, I18n.t('spree.end'), :class => 'inline' %>
     </div>
 
-    <div class="text-center actions filter-actions">
-      <%= button_tag I18n.t('spree.search') %>
+    <div class="text-center actions filter-actions offset-4 col-4">
+      <%= s.select :period, options_for_select([["Day", :day], ["Week", :week], ["Month", :month]], params[:period]), {}, { class: "custom-select fullwidth mt-2" } %>
+      <%= button_tag I18n.t('spree.search'), class: 'mt-5' %>
     </div>
   <% end %>
 </div>
 
-<h5> Users Created </h5>
-<%= line_chart Spree::User.group_by_period(:day, :created_at, range: params[:start_gt]..params[:end_lt]).count %>
-<hr>
+<% order_scope = Spree::Order.complete.group_by_period(params[:period], :completed_at, range: params[:start_gt]..params[:end_lt]) %>
+<% queries = [] %>
+<% queries << { type: :line_chart, name: "Users Created", data: Spree::User.group_by_period(params[:period], :created_at, range: params[:start_gt]..params[:end_lt]).count } %>
+<% queries << { name: "Order Totals", data: order_scope.sum(:total) } %>
 
-<h5> Order Totals </h5>
-<%= line_chart Spree::Order.group_by_period(:day, :completed_at, range: params[:start_gt]..params[:end_lt]).sum(:total) %>
+<% queries.each do |query| %>
+  <h5 class="mt-5"> <%= query[:name] %> </h5>
+  <%= line_chart query[:data] %>
+  <hr>
+<% end %>
+
+<h5 class="mt-5"> Products Sold | Excluded: [RFL, RFBL, Cypher] </h5>
+<% products = Spree::Order.where(completed_at: params[:start_gt].beginning_of_day..params[:end_lt].end_of_day).joins(:products) %>
+<% res = products.group(:name).count %>
+<% res.delete("Rift Filter Lite") %>
+<% res.delete("Rift Feedback Lite") %>
+<% res.delete("Cypher") %>
+<%= column_chart res %>
 <hr>
