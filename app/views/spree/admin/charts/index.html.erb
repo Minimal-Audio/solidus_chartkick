@@ -12,16 +12,38 @@
     </div>
     <div class="text-center actions filter-actions offset-4 col-4">
       <%= s.select :period, options_for_select([["Day", :day], ["Week", :week], ["Month", :month]], params[:period]), {}, { class: "custom-select fullwidth mt-2" } %>
-      <%= button_tag I18n.t('spree.search'), class: 'mt-5' %>
+      <%= button_tag I18n.t('spree.search'), class: 'mt-3' %>
     </div>
   <% end %>
 </div>
 
 <!-- Results -->
-<% SolidusChartkick.config.expressions.each do |expression| %>
-  <div class="mt-5">
-    <h5> <%= expression.label %> </h5>
-    <%= expression.chart_expression.call(params[:period], params[:start_gt], params[:end_lt]) %>
-    <hr>
-  </div>
-<% end %>
+<div class="mt-5 row">
+  <% SolidusChartkick.config.expressions.each do |expression| %>
+    <div class="<%= expression.col_size %>">
+      <h5> <%= expression.label %> </h5>
+      <%= expression.chart_expression.call(params[:period], params[:start_gt], params[:end_lt]) %>
+      <hr>
+    </div>
+  <% end %>
+</div>
+
+
+<script>
+  Chartkick.eachChart(function (chart) {
+    chart['options']['animation'] =
+      {
+        onComplete: () => {
+          delayed = true;
+        },
+        delay:
+          (context) => {
+            let delay = 0;
+            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
+            }
+            return delay;
+          }
+      }
+  })
+</script>
